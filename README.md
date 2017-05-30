@@ -41,3 +41,6 @@ Check out the issues tab and see if you can help out with any of those.
 
 ## Credits
 Makes use of the [p5.js library](https://p5js.org) for visualizing the net.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
