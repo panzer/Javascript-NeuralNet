@@ -30,6 +30,7 @@ Currently the nets are training on MLB (Major League Baseball) data. For each pl
 At the moment, the system is decently accurate. It will often be off by one or two RBIs.
 
 **Try it yourself!**
+
 I recommend using Chrome, right clicking, Inspect, and using the console. Use the command `bestMember.output(input)` where `input` is an array of your input. You must have at least as many inputs as your net requires!
 
 If you'd like to try MLB data, check out some statistics [here](http://newyork.yankees.mlb.com/stats/sortable.jsp?c_id=nyy#playerType=ALL). Your console input would look something like `bestMember.output([32, 57, 12, 13, 3])`.
