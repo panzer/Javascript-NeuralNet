@@ -17,11 +17,11 @@ Load up index.html and press the Start button.
 #### Current Training Data
 Currently the nets are training on MLB (Major League Baseball) data. For each player, there is:
 **Input**
-* # of Games
-* # of At Bats
-* # of Runs
-* # of Hits
-* # of Times the player has reached 2nd base
+* Number of Games
+* Number of At Bats
+* Number of Runs
+* Number of Hits
+* Number of Times the player has reached 2nd base
 
 **Output**
 * # of RBIs (Runs Batted In)
