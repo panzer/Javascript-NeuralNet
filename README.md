@@ -14,17 +14,17 @@ A neural net written in Javascript. The net is trained using a genetic algorithm
 
 ## How to use it
 Load up index.html and press the Start button.
-#### Current Training Data
+### Current Training Data
 Currently the nets are training on MLB (Major League Baseball) data. For each player, there is:
-**Input**
+####Input
 * Number of Games
 * Number of At Bats
 * Number of Runs
 * Number of Hits
 * Number of Times the player has reached 2nd base
 
-**Output**
-* # of RBIs (Runs Batted In)
+####Output
+* Number of RBIs (Runs Batted In)
 
 At the moment, the system is decently accurate. It will often be off by one or two RBIs.
 
