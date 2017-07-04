@@ -1,10 +1,14 @@
-function Net(n, m, l) {
+// Net ( Integer, Integer, Integer, Integer, (optional) [2D Array of Nodes], (optional) Float )
+// Number of #Inputs, Width, Height, #Outputs, (optional) Layers, (optional) Mutation Rate
+function Net(n, m, h, o, l, r) {
   Net.prototype.genLayers = function(n, m) {
     var layers = [];
     for (var i = 0; i <= m; i++) {
       var layer = layers[i] = [];
-      if (i == m) n = 1; // If it's the last column, we only want one output.
-      for (var j = 0; j < n; j++) {
+      if (i == 0) nodesInLayer = n; // If it's the first column
+      else if (i == m) nodesInLayer = o; // If it's the last column
+      else nodesInLayer = h; // The hidden layers
+      for (var j = 0; j < nodesInLayer; j++) {
         layer[j] = new Node(i,j,this);
         if (i > 0) {
           var connections = [];
@@ -23,7 +27,11 @@ function Net(n, m, l) {
   this.layers = l || this.genLayers(n, m);
   this.fitness = 0;
   this.distance;
+  this.mr = r || 0.05; // 5% default mutation rate
 
+  // output : [Array of Number] -> [Array of Number]
+  // Clears all nodes, sets the input nodes for the given values,
+  //   and propogates to produce an output value of the last node.
   Net.prototype.output = function(input) {
     for (var i = 0; i < this.layers.length; i++) {
       var layer = this.layers[i];
@@ -38,24 +46,28 @@ function Net(n, m, l) {
       this.layers[0][i].value = input[i];
     }
     var lastLayer = this.layers[this.layers.length - 1];
-    return lastLayer[0].getValue();
+    var outputs = [];
+    for (var i = 0; i < lastLayer.length; i++) {
+      outputs[i] = lastLayer[i].getValue();
+    }
+    return outputs;
   }
 
   Net.prototype.distFromGoal = function(tests) {
     // How far, in n-dimensional space, is this net from acheiving all of its goals?
     // The goal is to have a difference of 0 between it's result and the desired result
-
-    var distance = 0;
-    var error = 0;
+    var averageDistance = 0;
     for (var i = 0; i < tests.length; i++) {
       var test = tests[i];
-      //var inp = [round(random(255)), round(random(255)), round(random(255))];
-      //var expect = rgbToHsl(inp[0], inp[1], inp[2])[0] * 360;
-      test.difference = this.output(test.input) - test.desire;
-      //console.log(error);
-      distance += pow(test.difference, 2);
+      var output = this.output(test.input);
+      var distance = 0;
+      for (var k = 0; k < output.length; k++) {
+        test.difference = output[k] - test.desire[k];
+        distance += pow(test.difference, 2);
+      }
+      averageDistance += pow(distance, 0.5);
     }
-    this.distance = pow(distance, 0.5);
+    this.distance = averageDistance / tests.length;
     return this.distance;
   }
 
@@ -73,6 +85,9 @@ function Net(n, m, l) {
     return this.fitness;
   }
 
+  // mutate : Returns a Net
+  // Modifies the current Net by mutating every Node, then returns a cloned
+  //   version of itself to avoid overlapping references.
   Net.prototype.mutate = function() {
     // Go through every node and call its mutate function
     for (var i = 0; i < this.layers.length; i++) {
@@ -85,6 +100,8 @@ function Net(n, m, l) {
     return this.clone();
   }
 
+  // clone : Returns a Net
+  // Produces a replica of the current Net, but severs all references.
   Net.prototype.clone = function() {
     var newLayers = [];
     for (var i = 0; i < this.layers.length; i++) {
@@ -95,9 +112,10 @@ function Net(n, m, l) {
       }
       newLayers.push(newLayer);
     }
-    return new Net(0, 0, newLayers);
+    return new Net(0, 0, 0, 0, newLayers, this.mr);
   }
 
+  // Draws the current Net on the canvas.
   Net.prototype.show = function() {
     background(230);
     for (var i = 0; i < this.layers.length; i++) {
@@ -109,51 +127,3 @@ function Net(n, m, l) {
     }
   }
 }
-
-// Learning binary
-// var test01 = {
-//   input : [1, 1, 1, 0, 1],
-//   desire : 29
-// }
-// var test02 = {
-//   input : [0, 0, 0, 1, 1],
-//   desire : 3
-// }
-// var test03 = {
-//   input : [0, 1, 0, 1, 0],
-//   desire : 10
-// }
-// var test04 = {
-//   input : [0, 1, 1, 1, 1],
-//   desire : 15
-// }
-// var test05 = {
-//   input : [1, 0, 1, 0, 1],
-//   desire : 21
-// }
-
-// Some tests for guessing attributes of RGB colors, doesnt work :/
-// var test01 = {
-//   rgb : [34, 56, 121, 255],
-//   hsl : [225, 56.1, 30.4]
-// }
-// var test02 = {
-//   rgb : [100, 230, 21, 255],
-//   hsl : [97, 83.3, 49.2]
-// }
-// var test03 = {
-//   rgb : [240, 12, 190, 255],
-//   hsl : [313, 90.5, 49.4]
-// }
-// var test04 = {
-//   rgb : [24, 255, 230, 255],
-//   hsl : [174, 100.0, 54.7]
-// }
-// var test05 = {
-//   rgb : [245, 2, 2, 255],
-//   hsl : [0, 98.4, 48.4]
-// }
-// var test06 = {
-//   rgb : [0,77,0,255],
-//   hsl : [120, 100.0, 15.1]
-// }

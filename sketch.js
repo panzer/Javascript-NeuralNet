@@ -1,31 +1,34 @@
 const populationSize = 200;
-const n_inputs = 5;
-const n_layers = 4;
+const n_inputs = 4;
+const n_layers = 3;
+const n_height = 7;
+const n_outputs = 2;
 const node_spacing = 90;
 const node_diameter = 50;
 const fit_tests = [
-  new Test([37, 138, 30, 38, 7],  16),
-  new Test([36, 131, 26, 46, 12], 19),
-  new Test([23, 76,  13, 15, 2],  29),
-  new Test([16, 28,  1,  6,  1],  3),
-  new Test([37, 136, 14, 33, 2],  16),
-  new Test([24, 65,  12, 22, 4],  4),
-  new Test([19, 60,  6,  6,  3],  3),
-  new Test([11, 9,   2,  1,  0],  0),
-  new Test([34, 124, 16, 32, 3],  18),
-  new Test([41, 147, 21, 37, 16], 19),
-  new Test([9,  18,  2,  0,  0],  0),
-  new Test([20, 0,   0,  0,  0],  0),
-  new Test([8,  17,  0,  0,  0],  0),
-  new Test([14, 38,  4,  11, 0],  4),
-  new Test([37, 143, 21, 47, 9],  12),
-  new Test([21, 58,  7,  16, 3],  2),
-  new Test([40, 166, 31, 58, 10], 27),
-  new Test([22, 68,  6,  14, 4],  7),
-  new Test([21, 87,  10, 28, 4], 14),
-  new Test([23, 73,  7,  18, 2], 10)
-  // new Test([1, 2, 3], 4),
-  // new Test([6, 3, 0], -3)
+  new Test([1, 257, 35, 87],  [10, 35]),
+  new Test([1, 303, 54, 101], [14, 55]),
+  new Test([1, 282, 50, 93],  [19, 62]),
+  new Test([1, 259, 34, 66],  [4,  35]),
+  new Test([1, 170, 19, 38],  [5,  16]),
+  new Test([1, 161, 27, 46],  [0,  13]),
+  new Test([1, 156, 20, 36],  [7,  27]),
+  new Test([1, 282, 72, 93],  [27, 62]),
+  new Test([1, 135, 35, 46],  [14, 25]),
+  new Test([1, 159, 24, 42],  [12, 27]),
+  new Test([1, 143, 18, 30],  [9,  25]),
+  new Test([1, 318, 44, 80],  [9,  20]),
+  // new Test([1, 8,  17,  0,  0,  0],  [0]),
+  // new Test([1, 14, 38,  4,  11, 0],  [4]),
+  // new Test([1, 37, 143, 21, 47, 9],  [12]),
+  // new Test([1, 21, 58,  7,  16, 3],  [2]),
+  // new Test([1, 40, 166, 31, 58, 10], [27]),
+  // new Test([1, 22, 68,  6,  14, 4],  [7]),
+  // new Test([1, 21, 87,  10, 28, 4],  [14]),
+  // new Test([1, 23, 73,  7,  18, 2],  [10])
+  // new Test([1, 2, 3], [-1, 1/2, 3]),
+  // new Test([6, 3, 0], [3, 2, 0]),
+  // new Test([4, 3, 2], [1, 4/3, 8])
 ];
 
 var population;
@@ -35,7 +38,7 @@ var startingDist;
 var start_stop;
 
 setup = function() {
-  createCanvas(node_spacing*(n_layers+1) + 50, node_spacing*n_inputs + 50);
+  createCanvas(node_spacing*(n_layers+1) + 20, node_spacing*max(n_inputs,n_height,n_outputs) + 20);
   textAlign(CENTER);
   population = new Population(genFounders(populationSize), fit_tests);
   population.calcFitnesses();
@@ -54,14 +57,14 @@ draw = function() {
     population.calcFitnesses();
     bestMember = population.getBest();
     bestMember.show();
-    progressP.html("Starting Accuracy: " + nfc(startingDist,6) + "<br>Current Accuracy: " + nfc(bestMember.distance,6) + "<br>Population Size: " + populationSize + "<br> Generation: " + population.gen);
+    progressP.html("Starting Accuracy: " + nfc(startingDist,6) + "<br>Current Accuracy: " + nfc(bestMember.distance,10) + "<br>Population Size: " + populationSize + "<br> Generation: " + population.gen);
   }
 }
 
 genFounders = function(num) {
   var list = [];
   for (var n = 0; n < num; n++) {
-    list.push(new Net(n_inputs, n_layers));
+    list.push(new Net(n_inputs, n_layers, n_height, n_outputs));
   }
   return list;
 }

@@ -26,6 +26,7 @@ function Population(founders, tests) {
       anet = this.members[index];
       // Clone with mutation
       var copy = anet.clone();
+      copy.mr = min(0.05, 100/(this.gen+1));
       newPop[i] = copy.mutate();
     }
     // Throwing the previous best in the mix makes sure we're only improving.
@@ -58,5 +59,18 @@ function Population(founders, tests) {
       }
     }
     return best;
+  }
+
+  Population.prototype.getWorst = function() {
+    var worstFitness = Number.MAX_VALUE;;
+    var worst;
+    for (var i = 0; i < this.members.length; i++) {
+      var anet = this.members[i];
+      if (anet.fitness < worstFitness) {
+        worstFitness = anet.fitness;
+        worst = anet;
+      }
+    }
+    return worst;
   }
 }
