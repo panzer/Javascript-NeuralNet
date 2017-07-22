@@ -1,31 +1,32 @@
 const populationSize = 200;
-const n_inputs = 4;
-const n_layers = 3;
-const n_height = 7;
-const n_outputs = 2;
+const n_inputs = 5;
+const n_layers = 4;
+const n_height = 8;
+const n_outputs = 4;
 const node_spacing = 90;
 const node_diameter = 50;
 const fit_tests = [
-  new Test([1, 257, 35, 87],  [10, 35]),
-  new Test([1, 303, 54, 101], [14, 55]),
-  new Test([1, 282, 50, 93],  [19, 62]),
-  new Test([1, 259, 34, 66],  [4,  35]),
-  new Test([1, 170, 19, 38],  [5,  16]),
-  new Test([1, 161, 27, 46],  [0,  13]),
-  new Test([1, 156, 20, 36],  [7,  27]),
-  new Test([1, 282, 72, 93],  [27, 62]),
-  new Test([1, 135, 35, 46],  [14, 25]),
-  new Test([1, 159, 24, 42],  [12, 27]),
-  new Test([1, 143, 18, 30],  [9,  25]),
-  new Test([1, 318, 44, 80],  [9,  20]),
-  // new Test([1, 8,  17,  0,  0,  0],  [0]),
-  // new Test([1, 14, 38,  4,  11, 0],  [4]),
-  // new Test([1, 37, 143, 21, 47, 9],  [12]),
-  // new Test([1, 21, 58,  7,  16, 3],  [2]),
-  // new Test([1, 40, 166, 31, 58, 10], [27]),
-  // new Test([1, 22, 68,  6,  14, 4],  [7]),
-  // new Test([1, 21, 87,  10, 28, 4],  [14]),
-  // new Test([1, 23, 73,  7,  18, 2],  [10])
+  // new Test([1, 257, 35, 87],  [10, 35]),
+  // new Test([1, 303, 54, 101], [14, 55]),
+  // new Test([1, 282, 50, 93],  [19, 62]),
+  // new Test([1, 259, 34, 66],  [4,  35]),
+  // new Test([1, 170, 19, 38],  [5,  16]),
+  // new Test([1, 161, 27, 46],  [0,  13]),
+  // new Test([1, 156, 20, 36],  [7,  27]),
+  // new Test([1, 282, 72, 93],  [27, 62]),
+  // new Test([1, 135, 35, 46],  [14, 25]),
+  // new Test([1, 159, 24, 42],  [12, 27]),
+  // new Test([1, 143, 18, 30],  [9,  25]),
+  // new Test([1, 318, 44, 80],  [9,  20])
+  // TOP LEFT, TOP RIGHT, BOTTOM LEFT, BOTTOM RIGHT, CONST-> SOLID, HORIZONTAL, VERTICAL, DIAGONAL
+  new Test([ 1,  1, -1, -1, 1], [0, 1, 0, 0]),
+  new Test([-1, -1,  1,  1, 1], [0, 1, 0, 0]),
+  new Test([-1,  1, -1,  1, 1], [0, 0, 1, 0]),
+  new Test([ 1, -1,  1, -1, 1], [0, 0, 1, 0]),
+  new Test([-1,  1,  1, -1, 1], [0, 0, 0, 1]),
+  new Test([ 1, -1, -1,  1, 1], [0, 0, 0, 1]),
+  new Test([-1, -1, -1, -1, 1], [1, 0, 0, 0]),
+  new Test([ 1,  1,  1,  1, 1], [1, 0, 0, 0]),
   // new Test([1, 2, 3], [-1, 1/2, 3]),
   // new Test([6, 3, 0], [3, 2, 0]),
   // new Test([4, 3, 2], [1, 4/3, 8])

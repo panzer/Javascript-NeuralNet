@@ -2,21 +2,12 @@
 A neural net written in Javascript. The net is trained using a genetic algorithm.
 
 ## New in the Latest Update
-**Population**
-* `worstMember` method to find the Net with the worst fitness
-* Mutation rate of each Net is reduced as the generation increases
-
 **Nets**
-* Constructor now includes:
-    * \# of inputs
-    * \# of hidden layers
-    * \# of nodes in hidden layers
-    * \# of outputs.
-* `output` function now outputs an array of numbers in order to support multiple outputs.
-* `distFromGoal` function computes differenty to account for multiple outputs
+* New property `afunctions`. Currently, four functions are in the list (linear, binary, sigmoid, and ReLU) but more are available in `AFunctions.js`. These are the activation functions available for each Node.
 
 **Nodes**
-* Mutation rate is now inherited from the parent Net
+* Each Node can mutate to have an activation function. Any function that takes a number and returns a number is eligible, just add it to `afunctions` in `Net.js`.
+* In the `getValue` function, Node color is updated based on the activation function.
 
 ## How it works
 1. A population of `populationSize` nets is created, with each net having `n_inputs`, `n_layers`, `n_height` and `n_outputs`.
@@ -34,22 +25,25 @@ Load up `index.html` and press the 'Start' button.
 If you'd like to make modifications to the net, or the training data, you may be able to find what you're looking for in the `sketch.js` file.
 
 ### Current Training Data
-Currently the nets are training on MLB (Major League Baseball) data. For each player, there is:
+Currently the nets are training on a 2x2 pixel image.
 
 **Inputs**
-* Number of Games
-* Number of At Bats
-* Number of Runs
+* Top Left pixel [-1, 1]
+* Top Right pixel [-1, 1]
+* Bottom Left pixel [-1, 1]
+* Bottom Right pixel [-1, 1]
 
 **Output**
-* Number of HRs (Home Runs)
-* Number of RBIs (Runs Batted In)
+* Solid? [0, 1]
+* Horizontal? [0, 1]
+* Vertical? [0, 1]
+* Diagonal? [0, 1]
 
 **Try it yourself!**
 
 I recommend using Chrome, right clicking, Inspect, and using the console. Use the command `bestMember.output(input)` where `input` is an array of your input. You must have at least as many inputs as your net requires!
 
-If you'd like to try MLB data, check out some statistics [here](http://newyork.yankees.mlb.com/stats/sortable.jsp?c_id=nyy#playerType=ALL). Your console input would look something like `bestMember.output([1, 32, 57, 12])`. The input of `1` at the beginning is a constant input factor (which has been included in the training input).
+If you'd like to try the 2x2 pixel image example, keep in mind the expect input range [-1, 1]. Your console input would look something like `bestMember.output([1, 1, -0.5, -0.5, 1])`. The input of `1` at the end is a constant input factor (which has been included in the training input).
 
 ## Contributing
 Contributions are welcome! If you have some better way of training, if you want to make the user interface better... go ahead!

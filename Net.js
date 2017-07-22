@@ -28,6 +28,7 @@ function Net(n, m, h, o, l, r) {
   this.fitness = 0;
   this.distance;
   this.mr = r || 0.05; // 5% default mutation rate
+  this.afunctions = [identity, binary, sigmoid, relu];
 
   // output : [Array of Number] -> [Array of Number]
   // Clears all nodes, sets the input nodes for the given values,
@@ -75,7 +76,7 @@ function Net(n, m, h, o, l, r) {
     // Have some way of determining how good this net is
     // Higher number = better
     var distance = this.distFromGoal(tests);
-    this.fitness = 1 / distance;
+    this.fitness = 1 / (distance + 1);
     //console.log(distance);
     return this.fitness;
   }

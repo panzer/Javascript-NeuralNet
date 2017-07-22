@@ -4,9 +4,10 @@ function Node(i, j, net) {
   this.value = 0;
   this.edges = [];
   this.net = net;
-  this.color = 'gray';
   this.calculated = false;
   this.showWeightVals = false;
+  this.afunction = identity;
+  this.color = 'gray';
 
   Node.prototype.show = function() {
     // Drawing circle
@@ -55,9 +56,26 @@ function Node(i, j, net) {
       }
       this.calculated = true;
     }
-    this.value = total;
-    this.color = 'blue';
-    return total;
+    //console.log(this.afunction);
+    this.value = this.afunction(total)
+    switch (this.afunction) {
+      case identity:
+        this.color = 'blue';
+        break;
+      case binary:
+          this.color = 'green';
+          break;
+      case sigmoid:
+          this.color = 'brown';
+          break;
+      case relu:
+          this.color = 'purple';
+          break;
+      default:
+        this.color = 'gray';
+        break;
+    }
+    return this.value;
   }
 
   Node.prototype.mutate = function() {
@@ -67,6 +85,7 @@ function Node(i, j, net) {
         var edge = this.edges[i];
         edge.weight *= random(0.9, 1.1);
         if (random() <= this.net.mr) edge.weight *= -1;
+        if (random() <= this.net.mr) this.afunction = this.net.afunctions[floor(random(this.net.afunctions.length))];
         // if (edge.weight > 1) edge.weight = 1;
         // else if (edge.weight < -1) edge.weight = -1;
       }
@@ -80,6 +99,7 @@ function Node(i, j, net) {
       edgesClone[i] = this.edges[i].clone();
     }
     newNode.edges = edgesClone;
+    newNode.afunction = this.afunction;
     return newNode;
   }
 
