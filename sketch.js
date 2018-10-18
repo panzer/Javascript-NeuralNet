@@ -52,6 +52,7 @@ setup = function() {
   start_stop.mousePressed(toggle);
 }
 
+// Adding this comment here
 draw = function() {
   if (go) {
     population.nextGen();
