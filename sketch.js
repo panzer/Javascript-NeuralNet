@@ -41,7 +41,7 @@ var start_stop;
 setup = function() {
   createCanvas(node_spacing*(n_layers+1) + 20, node_spacing*max(n_inputs,n_height,n_outputs) + 20);
   textAlign(CENTER);
-  population = new Population(genFounders(populationSize), fit_tests);
+  population = new Population(generate_founders(populationSize), fit_tests);
   population.calcFitnesses();
   bestMember = population.getBest();
   bestMember.show();
@@ -63,7 +63,7 @@ draw = function() {
   }
 }
 
-genFounders = function(num) {
+generate_founders = function(num) {
   var list = [];
   for (var n = 0; n < num; n++) {
     list.push(new Net(n_inputs, n_layers, n_height, n_outputs));
